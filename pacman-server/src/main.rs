@@ -111,6 +111,15 @@ fn rate_limit(state: State<AppState>, limit: Json<contract::RateLimit>) -> HttpR
     }
 }
 
+fn authenticate(state: State<AppState>, auth: Json<contract::Authenticate>) -> HttpResponse {
+    let auth = auth.into_inner();
+    if state.is_password_correct(&auth.user, &auth.password) {
+        HttpResponse::Ok().finish()
+    } else {
+        HttpResponse::Unauthorized().finish()
+    }
+}
+
 #[derive(StructOpt)]
 struct Opt {
     /// Verbose logging
@@ -183,6 +192,7 @@ fn main() {
     let app_factory = move || App::with_state(state.clone())
         .prefix("/api")
         .resource("/submit", |r| r.post().with(submit))
+        .resource("/authenticate", |r| r.post().with(authenticate))
         .resource("/submissions", |r| r.get().with(get_submissions))
         .resource("/submissions/{id}", |r| r.get().with(get_submission))
         .resource("/scoreboard", |r| r.get().with(scoreboard))

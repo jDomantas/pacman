@@ -202,4 +202,9 @@ contract! {
         count: u32,
         window: u32,
     }
+
+    struct Authenticate {
+        user: String,
+        password: String,
+    }
 }
