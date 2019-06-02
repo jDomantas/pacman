@@ -139,8 +139,8 @@ fn main() {
         .resource("/submissions", |r| r.get().with(get_submissions))
         .resource("/submissions/{id}", |r| r.get().with(get_submission))
         .resource("/scoreboard", |r| r.get().with(scoreboard))
-        .resource("/admin/setlevel", |r| r.post().with(set_level))
-        .resource("/admin/setlevelstate", |r| r.post().with(set_level_state));
+        .resource("/admin/level", |r| r.post().with(set_level))
+        .resource("/admin/levelstate", |r| r.post().with(set_level_state));
 
     let port = opt.port.unwrap_or(8000);
     let listen_on = &format!("0.0.0.0:{}", port);
