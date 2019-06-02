@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use crate::contract;
 
-#[derive(Debug, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct Scoreboard {
     user_scores: HashMap<String, UserScore>,
 }

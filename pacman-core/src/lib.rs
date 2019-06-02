@@ -66,12 +66,14 @@ impl PacmanGame {
     }
 
     pub fn get_scores(&self) -> contract::Scoreboards {
+        let mut global = self.global_scores.clone();
+        global.add_level_scores(&self.level_scores);
         contract::Scoreboards {
             scoreboards: vec![
                 self.level_scores.to_contract_with_time("Results"),
                 self.level_scores.to_contract_with_size("Results (by size)"),
-                self.global_scores.to_contract_with_time("Total"),
-                self.global_scores.to_contract_with_size("Total (by size)"),
+                global.to_contract_with_time("Total"),
+                global.to_contract_with_size("Total (by size)"),
             ],
         }
     }
