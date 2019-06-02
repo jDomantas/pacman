@@ -87,9 +87,9 @@ contract! {
     }
 
     struct Submit {
-        program: Program,
         user: String,
         password: String,
+        program: Program,
     }
 
     struct Submissions {
@@ -180,5 +180,15 @@ contract! {
     struct Level {
         state: LevelState,
         ghost_program: Program,
+    }
+
+    struct SetLevel {
+        admin_token: String,
+        level: Level,
+    }
+
+    struct SetLevelState {
+        admin_token: String,
+        is_closed: bool,
     }
 }

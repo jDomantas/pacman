@@ -115,7 +115,7 @@ impl PacmanGame {
         }
     }
 
-    pub fn all_sumbissions(&self) -> contract::Submissions {
+    pub fn all_submissions(&self) -> contract::Submissions {
         contract::Submissions {
             submissions: self.submissions
                 .iter()
