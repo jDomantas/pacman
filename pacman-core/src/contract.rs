@@ -191,4 +191,8 @@ contract! {
         admin_token: String,
         is_closed: bool,
     }
+
+    struct Reset {
+        admin_token: String
+    }
 }

@@ -78,6 +78,20 @@ fn set_level_state(state: State<AppState>, set: Json<contract::SetLevelState>) -
     HttpResponse::Ok().finish()
 }
 
+fn reset(state: State<AppState>, reset: Json<contract::Reset>) -> HttpResponse {
+    let reset = reset.into_inner();
+    if reset.admin_token != state.admin_token.as_ref() {
+        log::debug!("invalid admin token: {:?}", reset.admin_token);
+        return HttpResponse::Unauthorized().finish();
+    }
+    let mut game = match state.game.lock() {
+        Ok(game) => game,
+        Err(poisoned) => poisoned.into_inner(),
+    };
+    *game = PacmanGame::new(game_config());
+    HttpResponse::Ok().finish()
+}
+
 #[derive(StructOpt)]
 struct Opt {
     /// Verbose logging
@@ -92,6 +106,14 @@ struct Opt {
     /// Admin token (defaults to "admin")
     #[structopt(long = "admin")]
     admin_token: Option<String>,
+}
+
+fn game_config() -> GameConfig {
+    GameConfig {
+        max_steps: 100,
+        rate_limit_count: 2,
+        rate_limit_window: Duration::seconds(10),
+    }
 }
 
 fn main() {
@@ -124,11 +146,7 @@ fn main() {
     };
 
     let state = AppState {
-        game: Arc::new(Mutex::new(PacmanGame::new(GameConfig {
-            max_steps: 100,
-            rate_limit_count: 2,
-            rate_limit_window: Duration::seconds(10),
-        }))),
+        game: Arc::new(Mutex::new(PacmanGame::new(game_config()))),
         users: users.into(),
         admin_token: admin_token.into(),
     };
@@ -140,7 +158,8 @@ fn main() {
         .resource("/submissions/{id}", |r| r.get().with(get_submission))
         .resource("/scoreboard", |r| r.get().with(scoreboard))
         .resource("/admin/level", |r| r.post().with(set_level))
-        .resource("/admin/levelstate", |r| r.post().with(set_level_state));
+        .resource("/admin/levelstate", |r| r.post().with(set_level_state))
+        .resource("/admin/reset", |r| r.post().with(reset));
 
     let port = opt.port.unwrap_or(8000);
     let listen_on = &format!("0.0.0.0:{}", port);
