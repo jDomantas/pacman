@@ -1,6 +1,7 @@
 # API endpoints
 
-Type definitions are here: [pacman-core/src/contract.rs](https://github.com/jDomantas/pacman/blob/master/pacman-core/src/contract.rs)
+Type definitions are here: [pacman-core/src/contract.rs](https://github.com/jDomantas/pacman/blob/master/pacman-core/src/contract.rs).
+
 All names are converted to `camelCase`.
 
 - `POST /api/submit` - accepts `Submit`, returns `SubmitResponse`
