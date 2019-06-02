@@ -13,6 +13,7 @@ struct AppState {
     game: Arc<Mutex<PacmanGame>>,
     users: Arc<[User]>,
     admin_token: Arc<str>,
+    config: GameConfig,
 }
 
 impl AppState {
@@ -88,7 +89,7 @@ fn reset(state: State<AppState>, reset: Json<contract::Reset>) -> HttpResponse {
         Ok(game) => game,
         Err(poisoned) => poisoned.into_inner(),
     };
-    *game = PacmanGame::new(game_config());
+    *game = PacmanGame::new(state.config);
     HttpResponse::Ok().finish()
 }
 
@@ -106,14 +107,15 @@ struct Opt {
     /// Admin token (defaults to "admin")
     #[structopt(long = "admin")]
     admin_token: Option<String>,
-}
-
-fn game_config() -> GameConfig {
-    GameConfig {
-        max_steps: 100,
-        rate_limit_count: 2,
-        rate_limit_window: Duration::seconds(10),
-    }
+    /// Max steps for user program (defaults to 100)
+    #[structopt(long = "max-steps")]
+    max_steps: Option<u64>,
+    /// Max submissions allowed in rate limit window (defaults to 2)
+    #[structopt(long = "rate-limit-count")]
+    rate_limit_count: Option<usize>,
+    /// Length of rate limit window (in seconds, defaults to 10)
+    #[structopt(long = "rate-limit-window")]
+    rate_limit_window: Option<u32>,
 }
 
 fn main() {
@@ -145,10 +147,17 @@ fn main() {
         ]
     };
 
+    let config = GameConfig {
+        max_steps: opt.max_steps.unwrap_or(100),
+        rate_limit_count: opt.rate_limit_count.unwrap_or(2),
+        rate_limit_window: Duration::seconds(i64::from(opt.rate_limit_window.unwrap_or(10))),
+    };
+
     let state = AppState {
-        game: Arc::new(Mutex::new(PacmanGame::new(game_config()))),
+        game: Arc::new(Mutex::new(PacmanGame::new(config))),
         users: users.into(),
         admin_token: admin_token.into(),
+        config,
     };
 
     let app_factory = move || App::with_state(state.clone())
