@@ -195,4 +195,11 @@ contract! {
     struct Reset {
         admin_token: String
     }
+
+    struct RateLimit {
+        admin_token: String,
+        user: String,
+        count: u32,
+        window: u32,
+    }
 }

@@ -4,7 +4,7 @@ use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use actix_web::{App, HttpResponse, Json, Path, State};
 use chrono::Duration;
-use pacman_core::{contract, GameConfig, PacmanGame};
+use pacman_core::{contract, GameConfig, PacmanGame, RateLimit};
 use structopt::StructOpt;
 use crate::config::User;
 
@@ -89,8 +89,26 @@ fn reset(state: State<AppState>, reset: Json<contract::Reset>) -> HttpResponse {
         Ok(game) => game,
         Err(poisoned) => poisoned.into_inner(),
     };
-    *game = PacmanGame::new(state.config);
+    *game = PacmanGame::new(state.config.clone());
     HttpResponse::Ok().finish()
+}
+
+fn rate_limit(state: State<AppState>, limit: Json<contract::RateLimit>) -> HttpResponse {
+    let limit = limit.into_inner();
+    if limit.admin_token != state.admin_token.as_ref() {
+        log::debug!("invalid admin token: {:?}", limit.admin_token);
+        return HttpResponse::Unauthorized().finish();
+    }
+    if state.users.iter().any(|u| u.name == limit.user) {
+        let mut game = state.game.lock().unwrap();
+        game.rate_limit_user(&limit.user, RateLimit {
+            count: limit.count as usize,
+            window: Duration::seconds(i64::from(limit.window)),
+        });
+        HttpResponse::Ok().finish()
+    } else {
+        HttpResponse::NotFound().finish()
+    }
 }
 
 #[derive(StructOpt)]
@@ -149,12 +167,14 @@ fn main() {
 
     let config = GameConfig {
         max_steps: opt.max_steps.unwrap_or(100),
-        rate_limit_count: opt.rate_limit_count.unwrap_or(2),
-        rate_limit_window: Duration::seconds(i64::from(opt.rate_limit_window.unwrap_or(10))),
+        rate_limit: RateLimit {
+            count: opt.rate_limit_count.unwrap_or(2),
+            window: Duration::seconds(i64::from(opt.rate_limit_window.unwrap_or(10))),
+        },
     };
 
     let state = AppState {
-        game: Arc::new(Mutex::new(PacmanGame::new(config))),
+        game: Arc::new(Mutex::new(PacmanGame::new(config.clone()))),
         users: users.into(),
         admin_token: admin_token.into(),
         config,
@@ -168,7 +188,8 @@ fn main() {
         .resource("/scoreboard", |r| r.get().with(scoreboard))
         .resource("/admin/level", |r| r.post().with(set_level))
         .resource("/admin/levelstate", |r| r.post().with(set_level_state))
-        .resource("/admin/reset", |r| r.post().with(reset));
+        .resource("/admin/reset", |r| r.post().with(reset))
+        .resource("/admin/ratelimit", |r| r.post().with(rate_limit));
 
     let port = opt.port.unwrap_or(8000);
     let listen_on = &format!("0.0.0.0:{}", port);

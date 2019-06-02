@@ -18,6 +18,15 @@ impl RateLimiter {
         }
     }
 
+    pub fn configure(&mut self, max_submissions: usize, time_window: Duration) {
+        self.max_submissions = max_submissions;
+        self.time_window = time_window;
+        if self.entries.len() > self.max_submissions {
+            self.entries.sort_by_key(|e| std::cmp::Reverse(*e));
+            self.entries.truncate(self.max_submissions);
+        }
+    }
+
     pub fn submit(&mut self, time: DateTime<Utc>) -> Result<(), RateLimitExceeded> {
         if self.entries.len() < self.max_submissions {
             self.entries.push(time);

@@ -11,10 +11,15 @@ use rate_limiter::{RateLimiter, RateLimitExceeded};
 use scoreboard::Scoreboard;
 
 #[derive(Debug, Copy, Clone)]
+pub struct RateLimit {
+    pub count: usize,
+    pub window: Duration,
+}
+
+#[derive(Debug, Clone)]
 pub struct GameConfig {
     pub max_steps: u64,
-    pub rate_limit_count: usize,
-    pub rate_limit_window: Duration,
+    pub rate_limit: RateLimit,
 }
 
 struct UserSubmission {
@@ -78,17 +83,22 @@ impl PacmanGame {
         }
     }
 
+    pub fn rate_limit_user(&mut self, user: &str, limit: RateLimit) {
+        if let Some(limiter) = self.limiters.get_mut(user) {
+            limiter.configure(limit.count, limit.window);
+        } else {
+            self.limiters.insert(user.to_owned(), RateLimiter::new(limit.count, limit.window));
+        }
+    }
+
     pub fn submit_program(&mut self, user: &str, program: &contract::Program, now: DateTime<Utc>) -> contract::SubmitResponse {
         if self.is_level_closed {
             return contract::SubmitResponse::LevelClosed;
         }
-        let config = self.config;
+        let rate_limit = self.config.rate_limit;
         let can_submit = self.limiters
             .entry(user.to_owned())
-            .or_insert_with(|| RateLimiter::new(
-                config.rate_limit_count,
-                config.rate_limit_window,
-            ))
+            .or_insert_with(|| RateLimiter::new(rate_limit.count, rate_limit.window))
             .submit(now);
         match can_submit {
             Ok(()) => {
