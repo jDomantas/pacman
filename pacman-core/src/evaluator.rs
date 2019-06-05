@@ -112,9 +112,13 @@ impl<'a> Evaluator<'a> {
             );
             self.objects[i].state = next_state;
             self.objects[i].obj.current_move = next_move;
-            let (row, col) = self.next_pos(&self.objects[i]);
+            self.objects[i].obj.intended_move = next_move;
+            let (blocked, row, col) = self.next_pos(&self.objects[i]);
             self.objects[i].next_row = row;
             self.objects[i].next_col = col;
+            if blocked {
+                self.objects[i].obj.current_move = Move::Wait;
+            }
         }
         let is_berry_taken = self.is_berry_taken();
         // check if pacman finished in a cell with ghost
@@ -279,20 +283,20 @@ impl<'a> Evaluator<'a> {
         }
     }
 
-    fn next_pos(&self, obj: &ObjectInfo) -> (usize, usize) {
+    fn next_pos(&self, obj: &ObjectInfo) -> (bool, usize, usize) {
         let row = obj.obj.row as usize;
         let col = obj.obj.col as usize;
-        let new_pos = match obj.obj.current_move {
+        let (new_row, new_col) = match obj.obj.current_move {
             Move::Up => (row.wrapping_sub(1), col),
             Move::Down => (row.wrapping_add(1), col),
             Move::Left => (row, col.wrapping_sub(1)),
             Move::Right => (row, col.wrapping_add(1)),
             Move::Wait => (row, col),
         };
-        if self.can_pass(new_pos.0, new_pos.1) {
-            new_pos
+        if self.can_pass(new_row, new_col) {
+            (false, new_row, new_col)
         } else {
-            (row, col)
+            (true, row, col)
         }
     }
 }

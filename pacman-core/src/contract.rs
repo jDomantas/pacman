@@ -136,6 +136,7 @@ contract! {
         row: u64,
         col: u64,
         current_move: Move,
+        intended_move: Move,
         state: DeathState,
         kind: ObjectKind,
     }
