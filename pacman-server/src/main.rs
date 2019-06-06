@@ -2,7 +2,7 @@ mod config;
 
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
-use actix_web::{App, HttpResponse, HttpRequest, Json, Path, State};
+use actix_web::{App, HttpResponse, HttpRequest, Json, Path, Result, State, fs::{self, NamedFile}};
 use actix_web::http::Cookie;
 use chrono::Duration;
 use time::Duration as Dur;
@@ -38,9 +38,9 @@ fn submit(state: State<AppState>, submit: Json<contract::Submit>, request: HttpR
         .map(|c| c.value())
         .or(submit.password.as_ref().map(|s| s.as_str()))
         .unwrap_or("<missing>");
-    log::debug!("POST /submit by {} (password {})", user, password);
+    log::info!("POST /submit by {} (password {})", user, password);
     if !state.is_password_correct(user, password) {
-        log::debug!("POST /submit by {} - unauthorized", user);
+        log::warn!("POST /submit by {} - unauthorized", user);
         return Json(contract::SubmitResponse::Unauthorized);
     }
     let mut game = state.game.lock().unwrap();
@@ -129,11 +129,43 @@ fn authenticate(state: State<AppState>, auth: Json<contract::Authenticate>) -> H
     let auth = auth.into_inner();
     if state.is_password_correct(&auth.user, &auth.password) {
         HttpResponse::Ok()
-            .cookie(Cookie::build("user", auth.user).max_age(Dur::days(1)).finish())
-            .cookie(Cookie::build("password", auth.password).max_age(Dur::days(1)).finish())
+            .cookie(Cookie::build("user", auth.user)
+                .max_age(Dur::days(1))
+                .path("/")
+                .finish())
+            .cookie(Cookie::build("password", auth.password)
+                .max_age(Dur::days(1))
+                .path("/")
+                .finish())
             .finish()
     } else {
+        log::warn!(
+            "POST /authenticate by {}, password {} - unauthorized",
+            auth.user,
+            auth.password,
+        );
         HttpResponse::Unauthorized().finish()
+    }
+}
+
+fn index(_req: HttpRequest<AppState>) -> Result<NamedFile> {
+    Ok(NamedFile::open("static/login.html")?)
+}
+
+fn editor(state: State<AppState>, request: HttpRequest<AppState>) -> Result<NamedFile> {
+    let user_cookie = request.cookie("user");
+    let password_cookie = request.cookie("password");
+    let user = user_cookie.as_ref().map(|c| c.value()).unwrap_or("<missing>");
+    let password = password_cookie.as_ref().map(|c| c.value()).unwrap_or("<missing>");
+    if state.is_password_correct(user, password) {
+        Ok(NamedFile::open("static/editor.html")?)
+    } else {
+        log::warn!(
+            "GET /editor.html by {}, password {} - unauthorized",
+            user,
+            password,
+        );
+        Ok(NamedFile::open("static/login.html")?)
     }
 }
 
@@ -206,17 +238,29 @@ fn main() {
         config,
     };
 
-    let app_factory = move || App::with_state(state.clone())
-        .prefix("/api")
-        .resource("/submit", |r| r.post().with(submit))
-        .resource("/authenticate", |r| r.post().with(authenticate))
-        .resource("/submissions", |r| r.get().with(get_submissions))
-        .resource("/submissions/{id}", |r| r.get().with(get_submission))
-        .resource("/scoreboard", |r| r.get().with(scoreboard))
-        .resource("/admin/level", |r| r.post().with(set_level))
-        .resource("/admin/levelstate", |r| r.post().with(set_level_state))
-        .resource("/admin/reset", |r| r.post().with(reset))
-        .resource("/admin/ratelimit", |r| r.post().with(rate_limit));
+    let app_factory = move || vec![
+        App::with_state(state.clone())
+            .prefix("/api")
+            .resource("/submit", |r| r.post().with(submit))
+            .resource("/authenticate", |r| r.post().with(authenticate))
+            .resource("/submissions", |r| r.get().with(get_submissions))
+            .resource("/submissions/{id}", |r| r.get().with(get_submission))
+            .resource("/scoreboard", |r| r.get().with(scoreboard))
+            .resource("/admin/level", |r| r.post().with(set_level))
+            .resource("/admin/levelstate", |r| r.post().with(set_level_state))
+            .resource("/admin/reset", |r| r.post().with(reset))
+            .resource("/admin/ratelimit", |r| r.post().with(rate_limit))
+            .boxed(),
+        App::new()
+            .prefix("/images")
+            .handler("/", fs::StaticFiles::new("static/images").expect("can't serve images"))
+            .boxed(),
+        App::with_state(state.clone())
+            .resource("/editor.html", |r| r.get().with(editor))
+            .resource("/index.html", |r| r.get().with(index))
+            .resource("/", |r| r.get().with(index))
+            .boxed(),
+    ];
 
     let port = opt.port.unwrap_or(8000);
     let listen_on = &format!("0.0.0.0:{}", port);
