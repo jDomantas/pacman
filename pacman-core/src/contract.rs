@@ -87,8 +87,8 @@ contract! {
     }
 
     struct Submit {
-        user: String,
-        password: String,
+        user: Option<String>,
+        password: Option<String>,
         program: Program,
     }
 

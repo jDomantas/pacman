@@ -14,3 +14,4 @@ actix = "0.7.9"
 futures = "0.1.25"
 pacman-core = { path = "../pacman-core" }
 structopt = "0.2.17"
+time = "0.1.42"

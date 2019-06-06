@@ -2,8 +2,10 @@ mod config;
 
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
-use actix_web::{App, HttpResponse, Json, Path, State};
+use actix_web::{App, HttpResponse, HttpRequest, Json, Path, State};
+use actix_web::http::Cookie;
 use chrono::Duration;
+use time::Duration as Dur;
 use pacman_core::{contract, GameConfig, PacmanGame, RateLimit};
 use structopt::StructOpt;
 use crate::config::User;
@@ -22,16 +24,28 @@ impl AppState {
     }
 }
 
-fn submit(state: State<AppState>, submit: Json<contract::Submit>) -> Json<contract::SubmitResponse> {
+fn submit(state: State<AppState>, submit: Json<contract::Submit>, request: HttpRequest<AppState>) -> Json<contract::SubmitResponse> {
     let submit = submit.into_inner();
-    log::debug!("POST /submit by {} (password {})", submit.user, submit.password);
-    if !state.is_password_correct(&submit.user, &submit.password) {
-        log::debug!("POST /submit by {} - unauthorized", submit.user);
+    let user_cookie = request.cookie("user");
+    let password_cookie = request.cookie("password");
+    let user = user_cookie
+        .as_ref()
+        .map(|c| c.value())
+        .or(submit.user.as_ref().map(|s| s.as_str()))
+        .unwrap_or("<missing>");
+    let password = password_cookie
+        .as_ref()
+        .map(|c| c.value())
+        .or(submit.password.as_ref().map(|s| s.as_str()))
+        .unwrap_or("<missing>");
+    log::debug!("POST /submit by {} (password {})", user, password);
+    if !state.is_password_correct(user, password) {
+        log::debug!("POST /submit by {} - unauthorized", user);
         return Json(contract::SubmitResponse::Unauthorized);
     }
     let mut game = state.game.lock().unwrap();
     let now = chrono::Utc::now();
-    let result = game.submit_program(&submit.user, &submit.program, now);
+    let result = game.submit_program(user, &submit.program, now);
     Json(result)
 }
 
@@ -114,7 +128,10 @@ fn rate_limit(state: State<AppState>, limit: Json<contract::RateLimit>) -> HttpR
 fn authenticate(state: State<AppState>, auth: Json<contract::Authenticate>) -> HttpResponse {
     let auth = auth.into_inner();
     if state.is_password_correct(&auth.user, &auth.password) {
-        HttpResponse::Ok().finish()
+        HttpResponse::Ok()
+            .cookie(Cookie::build("user", auth.user).max_age(Dur::days(1)).finish())
+            .cookie(Cookie::build("password", auth.password).max_age(Dur::days(1)).finish())
+            .finish()
     } else {
         HttpResponse::Unauthorized().finish()
     }
