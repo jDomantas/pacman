@@ -1,0 +1,66 @@
+{
+    "adminToken": "{{admin-token}}",
+    "level": {
+        "state": {
+            "cells": [
+				[ "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall" ],
+				[ "wall",  "empty", "empty", "empty", "wall",  "empty", "wall",  "empty", "wall",  "empty", "empty", "empty", "empty", "empty", "wall" ],
+				[ "wall",  "wall",  "wall",  "empty", "wall",  "empty", "wall",  "empty", "wall",  "wall",  "wall",  "wall",  "wall",  "empty", "wall" ],
+				[ "wall",  "empty", "wall",  "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "wall",  "empty", "wall",  "empty", "wall" ],
+				[ "wall",  "empty", "wall",  "empty", "wall",  "wall",  "wall",  "empty", "wall",  "wall",  "wall",  "empty", "wall",  "empty", "wall" ],
+				[ "wall",  "empty", "wall",  "empty", "empty", "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "wall",  "empty", "wall" ],
+				[ "wall",  "empty", "wall",  "empty", "wall",  "empty", "wall",  "wall",  "wall",  "empty", "wall",  "empty", "wall",  "empty", "wall" ],
+				[ "wall",  "empty", "empty", "empty", "wall",  "empty", "wall",  "empty", "empty", "empty", "wall",  "empty", "wall",  "empty", "wall" ],
+				[ "wall",  "empty", "wall",  "wall",  "wall",  "empty", "wall",  "wall",  "wall",  "empty", "wall",  "wall",  "wall",  "empty", "wall" ],
+				[ "wall",  "empty", "wall",  "empty", "empty", "empty", "wall",  "empty", "wall",  "empty", "empty", "empty", "empty", "empty", "wall" ],
+				[ "wall",  "wall",  "wall",  "empty", "wall",  "empty", "wall",  "empty", "wall",  "wall",  "wall",  "empty", "wall",  "wall",  "wall" ],
+				[ "wall",  "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "wall" ],
+				[ "wall",  "empty", "wall",  "wall",  "wall",  "empty", "wall",  "wall",  "wall",  "empty", "wall",  "empty", "wall",  "empty", "wall" ],
+				[ "wall",  "empty", "wall",  "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "empty", "empty", "wall",  "empty", "wall" ],
+				[ "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall" ]
+            ],
+            "objects": [
+                {
+                    "id": 0,
+                    "row": 13,
+                    "col": 1,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "pacman"
+                },
+                {
+                    "id": 1,
+                    "row": 1,
+                    "col": 9,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "berry"
+                }
+            ]
+        },
+        "ghostProgram": {
+            "rules": [
+                {
+                    "left": "pacman",
+                    "berry": "notTaken",
+                    "nextState": "b",
+                    "nextMove": "left"
+                },
+                {
+                	"left": "pacman",
+                	"currentState": "b",
+                	"nextState": "b",
+                	"nextMove": "left"
+                },
+                {
+                	"left": "empty",
+                	"currentState": "b",
+                	"nextState": "b",
+                	"nextMove": "left"
+                }
+            ]
+        }
+    }
+}
