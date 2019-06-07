@@ -1,0 +1,499 @@
+{
+    "adminToken": "{{admin-token}}",
+    "level": {
+        "state": {
+            "cells": [
+                [
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "empty",
+                    "wall",
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall",
+                    "wall",
+                    "empty",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "empty",
+                    "wall"
+                ],
+                [
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall",
+                    "wall"
+                ]
+            ],
+            "objects": [
+                {
+                    "id": 0,
+                    "row": 10,
+                    "col": 5,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "pacman"
+                },
+                {
+                    "id": 1,
+                    "row": 7,
+                    "col": 5,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "berry"
+                },
+                {
+                    "id": 2,
+                    "row": 5,
+                    "col": 4,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                }
+            ]
+        },
+        "ghostProgram": {
+            "rules": [
+                {
+                    "up": "empty",
+                    "currentState": "a",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "up": "pacman",
+                    "currentState": "a",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "up": "berry",
+                    "currentState": "a",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "down": "empty",
+                    "currentState": "a",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "down": "pacman",
+                    "currentState": "a",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "down": "berry",
+                    "currentState": "a",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "left": "empty",
+                    "currentState": "a",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "left": "pacman",
+                    "currentState": "a",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "left": "berry",
+                    "currentState": "a",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "right": "empty",
+                    "currentState": "a",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "right": "pacman",
+                    "currentState": "a",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "right": "berry",
+                    "currentState": "a",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "down": "empty",
+                    "currentState": "b",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "down": "pacman",
+                    "currentState": "b",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "down": "berry",
+                    "currentState": "b",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "up": "empty",
+                    "currentState": "b",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "up": "pacman",
+                    "currentState": "b",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "up": "berry",
+                    "currentState": "b",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "right": "empty",
+                    "currentState": "b",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "right": "pacman",
+                    "currentState": "b",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "right": "berry",
+                    "currentState": "b",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "left": "empty",
+                    "currentState": "b",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "left": "pacman",
+                    "currentState": "b",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "left": "berry",
+                    "currentState": "b",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "right": "empty",
+                    "currentState": "c",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "right": "pacman",
+                    "currentState": "c",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "right": "berry",
+                    "currentState": "c",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "left": "empty",
+                    "currentState": "c",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "left": "pacman",
+                    "currentState": "c",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "left": "berry",
+                    "currentState": "c",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "up": "empty",
+                    "currentState": "c",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "up": "pacman",
+                    "currentState": "c",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "up": "berry",
+                    "currentState": "c",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "down": "empty",
+                    "currentState": "c",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "down": "pacman",
+                    "currentState": "c",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "down": "berry",
+                    "currentState": "c",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "left": "empty",
+                    "currentState": "d",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "left": "pacman",
+                    "currentState": "d",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "left": "berry",
+                    "currentState": "d",
+                    "nextState": "a",
+                    "nextMove": "left"
+                },
+                {
+                    "right": "empty",
+                    "currentState": "d",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "right": "pacman",
+                    "currentState": "d",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "right": "berry",
+                    "currentState": "d",
+                    "nextState": "b",
+                    "nextMove": "right"
+                },
+                {
+                    "down": "empty",
+                    "currentState": "d",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "down": "pacman",
+                    "currentState": "d",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "down": "berry",
+                    "currentState": "d",
+                    "nextState": "d",
+                    "nextMove": "down"
+                },
+                {
+                    "up": "empty",
+                    "currentState": "d",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "up": "pacman",
+                    "currentState": "d",
+                    "nextState": "c",
+                    "nextMove": "up"
+                },
+                {
+                    "up": "berry",
+                    "currentState": "d",
+                    "nextState": "c",
+                    "nextMove": "up"
+                }
+            ]
+        }
+    }
+}
