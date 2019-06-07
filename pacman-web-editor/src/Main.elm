@@ -141,7 +141,7 @@ encodeRule rule =
     , ("left", encodeMaybe encodeCell rule.left)
     , ("right", encodeMaybe encodeCell rule.right)
     , ("berry", encodeMaybe encodeBerry rule.berry)
-    , ("state", encodeMaybe encodeState rule.state)
+    , ("currentState", encodeMaybe encodeState rule.state)
     , ("nextMove", encodeMove rule.nextMove)
     , ("nextState", encodeState rule.nextState)
     ]
