@@ -1,0 +1,82 @@
+{
+    "adminToken": "{{admin-token}}",
+    "level": {
+        "state": {
+            "cells": [
+["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"], 
+["wall", "wall", "empty", "wall", "empty", "wall", "empty", "wall", "empty", "empty", "empty", "wall"], 
+["wall", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"], 
+["wall", "empty", "empty", "wall", "wall", "empty", "empty", "empty", "empty", "empty", "wall", "wall"], 
+["wall", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"], 
+["wall", "empty", "empty", "wall", "wall", "empty", "empty", "empty", "empty", "empty", "wall", "wall"], 
+["wall", "empty", "empty", "wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"], 
+["wall", "empty", "empty", "wall", "wall", "empty", "empty", "empty", "empty", "empty", "wall", "wall"], 
+["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"], 
+["wall", "wall", "empty", "wall", "empty", "wall", "empty", "wall", "empty", "empty", "empty", "wall"], 
+["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+            ],
+            "objects": [
+                {
+                    "id": 0,
+                    "row": 2,
+                    "col": 1,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "pacman"
+                },
+                {
+                    "id": 1,
+                    "row": 1,
+                    "col": 10,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "berry"
+                },
+                
+                
+                {
+                    "id": 1,
+                    "row": 1,
+                    "col": 2,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 1,
+                    "row": 1,
+                    "col": 6,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 1,
+                    "row": 4,
+                    "col": 4,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 1,
+                    "row": 6,
+                    "col": 4,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                }
+                
+            ]
+        },
+        "ghostProgram": {
+            "rules": [{"up":"wall","down":null,"left":"wall","right":"wall","berry":null,"currentState":null,"nextMove":"down","nextState":"b"},{"up":null,"down":"wall","left":"wall","right":"wall","berry":null,"currentState":null,"nextMove":"up","nextState":"c"},{"up":"wall","down":"wall","left":"wall","right":null,"berry":null,"currentState":null,"nextMove":"right","nextState":"d"},{"up":"wall","down":"wall","left":null,"right":"wall","berry":null,"currentState":null,"nextMove":"left","nextState":"a"},{"up":null,"down":null,"left":null,"right":null,"berry":null,"currentState":"a","nextMove":"left","nextState":"a"},{"up":null,"down":null,"left":null,"right":null,"berry":null,"currentState":"b","nextMove":"down","nextState":"b"},{"up":null,"down":null,"left":null,"right":null,"berry":null,"currentState":"c","nextMove":"up","nextState":"c"},{"up":null,"down":null,"left":null,"right":null,"berry":null,"currentState":"d","nextMove":"right","nextState":"d"}]
+        }
+    }
+}
