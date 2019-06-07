@@ -1,0 +1,70 @@
+{
+    "adminToken": "{{admin-token}}",
+    "level": {
+        "state": {
+            "cells": [
+["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"], 
+["wall", "wall", "wall", "wall", "wall", "empty", "empty", "wall", "wall", "wall", "wall", "wall"], 
+["wall", "wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"], 
+["wall", "empty", "wall", "wall", "wall", "empty", "empty", "wall", "wall", "wall", "empty", "wall"], 
+["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"], 
+["wall", "empty", "wall", "wall", "wall", "empty", "empty", "wall", "wall", "wall", "empty", "wall"], 
+["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"], 
+["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+            ],
+            "objects": [
+                {
+                    "id": 0,
+                    "row": 3,
+                    "col": 1,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "pacman"
+                },
+                {
+                    "id": 1,
+                    "row": 2,
+                    "col": 2,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "berry"
+                },
+                
+                
+                {
+                    "id": 1,
+                    "row": 1,
+                    "col": 6,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 1,
+                    "row": 3,
+                    "col": 5,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 1,
+                    "row": 5,
+                    "col": 6,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                }
+                
+            ]
+        },
+        "ghostProgram": {
+            "rules": [{"up":null,"down":null,"left":null,"right":null,"berry":"taken","currentState":null,"nextMove":"up","nextState":"a"},{"up":null,"down":"pacman","left":null,"right":null,"berry":null,"currentState":"a","nextMove":"up","nextState":"d"},{"up":"ghost","down":null,"left":null,"right":null,"berry":null,"currentState":"d","nextMove":"wait","nextState":"d"},{"up":null,"down":null,"left":null,"right":null,"berry":null,"currentState":"d","nextMove":"up","nextState":"d"}]
+        }
+    }
+}
