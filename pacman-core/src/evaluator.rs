@@ -138,7 +138,6 @@ impl<'a> Evaluator<'a> {
                     } else {
                         self.objects[i].obj.state = DeathState::DiesAtEnd;
                     }
-                    break;
                 }
             }
         }
@@ -161,7 +160,6 @@ impl<'a> Evaluator<'a> {
                     } else {
                         self.objects[i].obj.state = DeathState::DiesInMiddle;
                     }
-                    break;
                 }
             }
         }
