@@ -29,15 +29,13 @@ fn submit(state: State<AppState>, submit: Json<contract::Submit>, request: HttpR
     let submit = submit.into_inner();
     let user_cookie = request.cookie("user");
     let password_cookie = request.cookie("password");
-    let user = user_cookie
-        .as_ref()
-        .map(|c| c.value())
-        .or(submit.user.as_ref().map(|s| s.as_str()))
+    let user =
+        submit.user.as_ref().map(|s| s.as_str())
+        .or(user_cookie.as_ref().map(|c| c.value()))
         .unwrap_or("<missing>");
-    let password = password_cookie
-        .as_ref()
-        .map(|c| c.value())
-        .or(submit.password.as_ref().map(|s| s.as_str()))
+    let password =
+        submit.password.as_ref().map(|s| s.as_str())
+        .or(password_cookie.as_ref().map(|c| c.value()))
         .unwrap_or("<missing>");
     log::info!("POST /submit by {} (password {})", user, password);
     if !state.is_password_correct(user, password) {
