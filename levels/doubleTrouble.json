@@ -1,0 +1,61 @@
+{
+	"adminToken": "{{admin-token}}",
+	"level": {
+		"state": {
+			"cells": [
+						["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"], 
+						["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"], 
+						["wall", "empty", "wall", "wall", "wall", "empty", "wall", "wall", "wall", "empty", "wall"], 
+						["wall", "empty", "wall", "empty", "empty", "empty", "empty", "empty", "wall", "empty", "wall"], 
+						["wall", "empty", "wall", "empty", "empty", "wall", "empty", "empty", "wall", "empty", "wall"], 
+						["wall", "empty", "empty", "empty", "wall", "wall", "wall", "empty", "empty", "empty", "wall"], 
+						["wall", "empty", "wall", "empty", "wall", "empty", "wall", "empty", "wall", "empty", "wall"], 
+						["wall", "empty", "wall", "empty", "empty", "empty", "empty", "empty", "wall", "empty", "wall"], 
+						["wall", "empty", "wall", "wall", "wall", "empty", "wall", "wall", "wall", "empty", "wall"], 
+						["wall", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall"], 
+						["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
+			],
+			"objects": [
+				{
+					"id": 0,
+					"row": 1,
+					"col": 1,
+					"currentMove": "wait",
+					"intendedMove": "wait",
+					"state": "alive",
+					"kind": "pacman"
+				},
+				{
+					"id": 1,
+					"row": 6,
+					"col": 5,
+					"currentMove": "wait",
+					"intendedMove": "wait",
+					"state": "alive",
+					"kind": "berry"
+				},
+				{
+					"id": 2,
+					"row": 5,
+					"col": 1,
+					"currentMove": "wait",
+					"intendedMove": "wait",
+					"state": "alive",
+					"kind": "ghost"
+				},
+				{
+					"id": 2,
+					"row": 9,
+					"col": 5,
+					"currentMove": "wait",
+					"intendedMove": "wait",
+					"state": "alive",
+					"kind": "ghost"
+				}
+			]
+		},
+		"ghostProgram": {
+			"rules": [{"up":"pacman","down":null,"left":null,"right":null,"berry":"notTaken","currentState":"d","nextMove":"up","nextState":"d"},{"up":null,"down":null,"left":null,"right":"pacman","berry":"notTaken","currentState":"d","nextMove":"right","nextState":"d"},{"up":null,"down":"pacman","left":null,"right":null,"berry":"notTaken","currentState":"d","nextMove":"down","nextState":"d"},{"up":null,"down":null,"left":"pacman","right":null,"berry":"notTaken","currentState":"d","nextMove":"left","nextState":"d"},{"up":"empty","down":"wall","left":"wall","right":"empty","berry":"notTaken","currentState":"a","nextMove":"up","nextState":"b"},{"up":null,"down":"wall","left":null,"right":null,"berry":null,"currentState":"a","nextMove":"left","nextState":"a"},{"up":"empty","down":"empty","left":"wall","right":"wall","berry":null,"currentState":"b","nextMove":"up","nextState":"b"},{"up":"empty","down":"empty","left":"wall","right":"empty","berry":null,"currentState":"b","nextMove":"right","nextState":"c"},{"up":"wall","down":"wall","left":"empty","right":"empty","berry":null,"currentState":"c","nextMove":"right","nextState":"c"},{"up":"empty","down":"empty","left":"empty","right":null,"berry":null,"currentState":"c","nextMove":"up","nextState":"c"},{"up":"empty","down":"empty","left":"wall","right":"empty","berry":null,"currentState":"c","nextMove":"up","nextState":"c"},{"up":"wall","down":null,"left":"wall","right":null,"berry":null,"currentState":"c","nextMove":"right","nextState":"c"},{"up":"wall","down":"empty","left":"empty","right":"empty","berry":null,"currentState":"c","nextMove":"right","nextState":"c"},{"up":"empty","down":"wall","left":"empty","right":"empty","berry":null,"currentState":"c","nextMove":"right","nextState":"c"},{"up":"wall","down":null,"left":null,"right":"wall","berry":null,"currentState":"c","nextMove":"down","nextState":"d"},{"up":"wall","down":null,"left":null,"right":"wall","berry":null,"currentState":"c","nextMove":"down","nextState":"d"},{"up":null,"down":"empty","left":null,"right":"wall","berry":null,"currentState":"d","nextMove":"down","nextState":"d"},{"up":null,"down":"empty","left":"wall","right":"empty","berry":null,"currentState":"d","nextMove":"down","nextState":"d"},{"up":null,"down":"wall","left":null,"right":"wall","berry":null,"currentState":"d","nextMove":"left","nextState":"d"},{"up":"wall","down":"wall","left":null,"right":null,"berry":null,"currentState":"d","nextMove":"left","nextState":"d"},{"up":"empty","down":"empty","left":"empty","right":"empty","berry":null,"currentState":"d","nextMove":"left","nextState":"d"},{"up":"berry","down":"empty","left":"empty","right":"empty","berry":null,"currentState":"d","nextMove":"left","nextState":"d"},{"up":null,"down":"wall","left":"wall","right":null,"berry":null,"currentState":"d","nextMove":"up","nextState":"c"},{"up":null,"down":null,"left":"wall","right":"wall","berry":null,"currentState":"c","nextMove":"up","nextState":"c"},{"up":"empty","down":"empty","left":"wall","right":"empty","berry":"notTaken","currentState":"a","nextMove":"right","nextState":"c"},{"up":"empty","down":null,"left":null,"right":null,"berry":null,"currentState":null,"nextMove":"up","nextState":"d"},{"up":null,"down":null,"left":"empty","right":null,"berry":null,"currentState":null,"nextMove":"left","nextState":"d"},{"up":null,"down":"empty","left":null,"right":null,"berry":null,"currentState":null,"nextMove":"down","nextState":"d"},{"up":null,"down":null,"left":null,"right":"empty","berry":null,"currentState":null,"nextMove":"right","nextState":"d"}]
+		}
+	}
+}
