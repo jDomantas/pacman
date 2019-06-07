@@ -1,3 +1,4 @@
+use std::cmp::Reverse;
 use std::collections::HashMap;
 use crate::contract;
 
@@ -52,7 +53,7 @@ impl Scoreboard {
             ))
             .collect::<Vec<_>>();
         entries.sort_by(|(user1, score1, penalty1), (user2, score2, penalty2)|
-            (score1, penalty1, user1).cmp(&(score2, penalty2, user2)).reverse()
+            (score1, Reverse(penalty1), user1).cmp(&(score2, Reverse(penalty2), user2)).reverse()
         );
         contract::Scoreboard {
             title: title.to_owned(),
@@ -77,7 +78,7 @@ impl Scoreboard {
             ))
             .collect::<Vec<_>>();
         entries.sort_by(|(user1, score1, penalty1), (user2, score2, penalty2)|
-            (score1, penalty1, user1).cmp(&(score2, penalty2, user2)).reverse()
+            (score1, Reverse(penalty1), user1).cmp(&(score2, Reverse(penalty2), user2)).reverse()
         );
         contract::Scoreboard {
             title: title.to_owned(),
