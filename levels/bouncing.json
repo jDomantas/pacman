@@ -1,0 +1,116 @@
+{
+    "adminToken": "{{admin-token}}",
+    "level": {
+        "state": {
+            "cells": [
+                [ "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall" ]
+            ],
+            "objects": [
+                {
+                    "id": 0,
+                    "row": 3,
+                    "col": 1,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "pacman"
+                },
+                {
+                    "id": 1,
+                    "row": 3,
+                    "col": 11,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "berry"
+                },
+                {
+                    "id": 2,
+                    "row": 1,
+                    "col": 4,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 3,
+                    "row": 2,
+                    "col": 5,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 4,
+                    "row": 2,
+                    "col": 6,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 5,
+                    "row": 5,
+                    "col": 7,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 6,
+                    "row": 3,
+                    "col": 8,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 7,
+                    "row": 2,
+                    "col": 9,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                }
+            ]
+        },
+        "ghostProgram": {
+            "rules": [
+                {
+                    "up": "wall",
+                    "currentState": "a",
+                    "nextState": "b",
+                    "nextMove": "down"
+                },
+                {
+                    "currentState": "a",
+                    "nextState": "a",
+                    "nextMove": "up"
+                },
+                {
+                    "down": "wall",
+                    "currentState": "b",
+                    "nextState": "a",
+                    "nextMove": "up"
+                },
+                {
+                    "currentState": "b",
+                    "nextState": "b",
+                    "nextMove": "down"
+                }
+            ]
+        }
+    }
+}
