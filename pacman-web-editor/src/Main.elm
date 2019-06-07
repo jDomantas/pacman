@@ -23,7 +23,7 @@ type Cell
 
 type Berry = Taken | NotTaken
 
-type State = A | B | C | D | E | F | G | H
+type State = A | B | C | D
 
 type Move = Up | Down | Left | Right | Wait
 
@@ -108,10 +108,6 @@ encodeState state =
     B -> Encode.string "b"
     C -> Encode.string "c"
     D -> Encode.string "d"
-    E -> Encode.string "e"
-    F -> Encode.string "f"
-    G -> Encode.string "g"
-    H -> Encode.string "h"
 
 encodeMaybe : (a -> Value) -> Maybe a -> Value
 encodeMaybe f val = case val of
@@ -366,10 +362,6 @@ stateImg state = case state of
   B -> "stateB"
   C -> "stateC"
   D -> "stateD"
-  E -> "stateE"
-  F -> "stateF"
-  G -> "stateG"
-  H -> "stateH"
 
 cycleState : Maybe State -> Maybe State
 cycleState state = case state of
@@ -377,11 +369,7 @@ cycleState state = case state of
   Just A -> Just B
   Just B -> Just C
   Just C -> Just D
-  Just D -> Just E
-  Just E -> Just F
-  Just F -> Just G
-  Just G -> Just H
-  Just H -> Nothing
+  Just D -> Nothing
 
 viewState : Int -> Rule -> Element Styles v Msg
 viewState index rule =
@@ -421,11 +409,7 @@ cycleNextState state = case state of
   A -> B
   B -> C
   C -> D
-  D -> E
-  E -> F
-  F -> G
-  G -> H
-  H -> A
+  D -> A
 
 viewNextState : Int -> Rule -> Element Styles v Msg
 viewNextState index rule =

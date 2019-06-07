@@ -56,10 +56,6 @@ contract! {
         B,
         C,
         D,
-        E,
-        F,
-        G,
-        H,
     }
 
     #[derive(PartialEq, Eq, Copy)]
