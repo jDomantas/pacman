@@ -1,0 +1,85 @@
+{
+    "adminToken": "{{admin-token}}",
+    "level": {
+        "state": {
+            "cells": [
+                [ "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "empty", "empty", "empty", "empty" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "empty" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "wall",  "wall",  "wall",  "wall",  "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "wall",  "wall",  "wall",  "wall",  "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "empty" ],
+                [ "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "empty", "empty", "empty", "empty" ]
+            ],
+            "objects": [
+                {
+                    "id": 0,
+                    "row": 3,
+                    "col": 1,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "pacman"
+                },
+                {
+                    "id": 1,
+                    "row": 3,
+                    "col": 9,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "berry"
+                },
+                {
+                    "id": 2,
+                    "row": 3,
+                    "col": 6,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 3,
+                    "row": 3,
+                    "col": 7,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                },
+                {
+                    "id": 4,
+                    "row": 3,
+                    "col": 8,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "ghost"
+                }
+            ]
+        },
+        "ghostProgram": {
+            "rules": [
+                {
+                    "left": "pacman",
+                    "berry": "notTaken",
+                    "nextState": "b",
+                    "nextMove": "left"
+                },
+                {
+                	"left": "pacman",
+                	"currentState": "b",
+                	"nextState": "b",
+                	"nextMove": "left"
+                },
+                {
+                	"left": "empty",
+                	"currentState": "b",
+                	"nextState": "b",
+                	"nextMove": "left"
+                }
+            ]
+        }
+    }
+}
