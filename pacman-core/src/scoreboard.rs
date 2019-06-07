@@ -1,8 +1,9 @@
 use std::cmp::Reverse;
 use std::collections::HashMap;
+use serde::{Deserialize, Serialize};
 use crate::contract;
 
-#[derive(Debug, Clone, Default)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Scoreboard {
     user_scores: HashMap<String, UserScore>,
 }
@@ -94,7 +95,7 @@ impl Scoreboard {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct UserScore {
     solved_levels: u64,
     time_penalty: i64,

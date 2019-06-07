@@ -1,6 +1,6 @@
 mod config;
 
-use std::path::PathBuf;
+use std::path::{Path as StdPath, PathBuf};
 use std::sync::{Arc, Mutex};
 use actix_web::{App, HttpResponse, HttpRequest, Json, Path, Result, State, fs::{self, NamedFile}};
 use actix_web::http::Cookie;
@@ -15,6 +15,7 @@ struct AppState {
     game: Arc<Mutex<PacmanGame>>,
     users: Arc<[User]>,
     admin_token: Arc<str>,
+    score_dir: Option<Arc<StdPath>>,
     config: GameConfig,
 }
 
@@ -79,6 +80,19 @@ fn set_level(state: State<AppState>, set: Json<contract::SetLevel>) -> HttpRespo
     let mut game = state.game.lock().unwrap();
     let now = chrono::Utc::now();
     game.set_level(set.level, now);
+    if let Some(dir) = state.score_dir.as_ref() {
+        let dump = game.raw_scoreboard();
+        let timestamp = time::at(time::get_time()).rfc3339().to_string();
+        let timestamp = timestamp.replace(':', "-");
+        let mut file = PathBuf::new();
+        file.push(dir);
+        file.push(&timestamp);
+        file.set_extension("json");
+        match std::fs::write(&file, &dump) {
+            Ok(()) => log::info!("written scoreboard dump to {}", file.display()),
+            Err(e) => log::error!("failed to write dump to {}: {}", file.display(), e),
+        }
+    }
     HttpResponse::Ok().finish()
 }
 
@@ -192,6 +206,12 @@ struct Opt {
     /// Length of rate limit window (in seconds, defaults to 10)
     #[structopt(long = "rate-limit-window")]
     rate_limit_window: Option<u32>,
+    /// Load global scores from previous scoreboard dump
+    #[structopt(long = "scores", parse(from_os_str))]
+    scores: Option<PathBuf>,
+    /// Directory to dump scores after each level change
+    #[structopt(long = "score-dir", parse(from_os_str))]
+    score_dir: Option<PathBuf>,
 }
 
 fn main() {
@@ -231,11 +251,28 @@ fn main() {
         },
     };
 
+    let game = if let Some(scores) = opt.scores {
+        let json = match std::fs::read_to_string(&scores) {
+            Ok(json) => json,
+            Err(e) => {
+                log::error!("failed to read scoreboard file: {}", e);
+                return;
+            }
+        };
+        match PacmanGame::from_raw_scoreboard(config.clone(), &json) {
+            Ok(game) => game,
+            Err(()) => return,
+        }
+    } else {
+        PacmanGame::new(config.clone())
+    };
+
     let state = AppState {
-        game: Arc::new(Mutex::new(PacmanGame::new(config.clone()))),
+        game: Arc::new(Mutex::new(game)),
         users: users.into(),
         admin_token: admin_token.into(),
         config,
+        score_dir: opt.score_dir.map(Into::into),
     };
 
     let app_factory = move || vec![

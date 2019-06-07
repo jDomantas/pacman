@@ -52,6 +52,29 @@ impl PacmanGame {
         }
     }
 
+    pub fn from_raw_scoreboard(config: GameConfig, raw: &str) -> Result<Self, ()> {
+        let global_scores = match serde_json::from_str(raw) {
+            Ok(s) => s,
+            Err(e) => {
+                log::error!("failed to deserialize raw scores: {}", e);
+                return Err(());
+            }
+        };
+        let mut game = Self::new(config);
+        game.global_scores = global_scores;
+        Ok(game)
+    }
+
+    pub fn raw_scoreboard(&self) -> String {
+        match serde_json::to_string_pretty(&self.global_scores) {
+            Ok(s) => s,
+            Err(e) => {
+                log::error!("{}", e);
+                e.to_string()
+            }
+        }
+    }
+
     pub fn set_config(&mut self, config: GameConfig) {
         self.config = config;
     }
