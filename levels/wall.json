@@ -1,0 +1,41 @@
+{
+    "adminToken": "{{admin-token}}",
+    "level": {
+        "state": {
+            "cells": [
+                [ "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "wall",  "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "empty", "empty", "empty", "empty", "empty", "empty", "empty", "wall" ],
+                [ "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall",  "wall" ]
+            ],
+            "objects": [
+                {
+                    "id": 0,
+                    "row": 4,
+                    "col": 2,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "pacman"
+                },
+                {
+                    "id": 1,
+                    "row": 4,
+                    "col": 6,
+                    "currentMove": "wait",
+                    "intendedMove": "wait",
+                    "state": "alive",
+                    "kind": "berry"
+                }
+            ]
+        },
+        "ghostProgram": {
+            "rules": []
+        }
+    }
+}
