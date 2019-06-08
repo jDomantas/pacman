@@ -14,7 +14,7 @@ pub fn read_from_file(file: &Path) -> std::io::Result<Vec<User>> {
         .map(|(index, line)| (index, line.trim()))
         .filter(|&(_, line)| line != "")
         .filter_map(|(index, line)| {
-            let mut parts = line.split_whitespace();
+            let mut parts = line.split(',');
             let name = parts.next().map(str::trim);
             let password = parts.next().map(str::trim);
             let trailing = parts.next();
