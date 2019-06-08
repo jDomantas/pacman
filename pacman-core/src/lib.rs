@@ -134,6 +134,7 @@ impl PacmanGame {
                         user,
                         time_penalty,
                         program.rules.len(),
+                        details.steps.len().saturating_sub(1),
                     );
                 }
                 self.submissions.push(UserSubmission {
