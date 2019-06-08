@@ -13,12 +13,13 @@ impl Scoreboard {
         Self::default()
     }
 
-    pub fn add_user_evaluation(&mut self, user: &str, time: i64, size: usize) {
+    pub fn add_user_evaluation(&mut self, user: &str, time: i64, size: usize, speed: usize) {
         if !self.user_scores.contains_key(user) {
             self.user_scores.insert(user.to_owned(), UserScore {
                 solved_levels: 0,
                 time_penalty: 0,
                 size_penalty: 0,
+                speed_penalty: 0,
             });
         }
         let score = self.user_scores.get_mut(user).unwrap();
@@ -26,9 +27,11 @@ impl Scoreboard {
             score.solved_levels = 1;
             score.time_penalty = time;
             score.size_penalty = size;
+            score.speed_penalty = speed;
         } else {
             score.time_penalty = std::cmp::min(score.time_penalty, time);
             score.size_penalty = std::cmp::min(score.size_penalty, size);
+            score.speed_penalty = std::cmp::min(score.speed_penalty, speed);
         }
     }
 
@@ -37,7 +40,8 @@ impl Scoreboard {
             if let Some(total) = self.user_scores.get_mut(user) {
                 total.solved_levels += score.solved_levels;
                 total.time_penalty += score.time_penalty;
-                total.size_penalty += score.size_penalty; 
+                total.size_penalty += score.size_penalty;
+                total.speed_penalty += score.speed_penalty;
             } else {
                 self.user_scores.insert(user.to_owned(), score.clone());
             }
@@ -93,6 +97,31 @@ impl Scoreboard {
                 .collect(),
         }
     }
+
+    pub fn to_contract_with_speed(&self, title: &str) -> contract::Scoreboard {
+        let mut entries = self.user_scores
+            .iter()
+            .map(|(user, score)| (
+                user.clone(),
+                score.solved_levels,
+                score.speed_penalty,
+            ))
+            .collect::<Vec<_>>();
+        entries.sort_by(|(user1, score1, penalty1), (user2, score2, penalty2)|
+            (score1, Reverse(penalty1), user1).cmp(&(score2, Reverse(penalty2), user2)).reverse()
+        );
+        contract::Scoreboard {
+            title: title.to_owned(),
+            entries: entries
+                .into_iter()
+                .map(|(user, solved, penalty)| contract::ScoreboardEntry {
+                    user,
+                    solved,
+                    tie_breaker: penalty.to_string(),
+                })
+                .collect(),
+        }
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
@@ -100,6 +129,7 @@ pub struct UserScore {
     solved_levels: u64,
     time_penalty: i64,
     size_penalty: usize,
+    speed_penalty: usize,
 }
 
 fn format_time_penalty(time: i64) -> String {

@@ -98,10 +98,8 @@ impl PacmanGame {
         global.add_level_scores(&self.level_scores);
         contract::Scoreboards {
             scoreboards: vec![
-                self.level_scores.to_contract_with_time("Results"),
-                self.level_scores.to_contract_with_size("Results (by size)"),
-                global.to_contract_with_time("Total"),
-                global.to_contract_with_size("Total (by size)"),
+                self.level_scores.to_contract_with_speed("Results"),
+                global.to_contract_with_speed("Total"),
             ],
         }
     }
